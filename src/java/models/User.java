@@ -10,16 +10,16 @@ import java.io.Serializable;
 public class User implements Serializable {
     private String email;
     private boolean active;
-    private String first_name;
-    private String last_name;
+    private String firstName;
+    private String lastName;
     private String password;
     private int role;
     
-    public User(String email, boolean active, String first_name, String last_name, String password, int role) {
+    public User(String email, boolean active, String firstName, String lastName, String password, int role) {
         this.email = email;
         this.active = active;
-        this.first_name = first_name;
-        this.last_name = last_name;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.password = password;
         this.role = role;
     }
@@ -32,12 +32,12 @@ public class User implements Serializable {
         return active;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
 
     public String getPassword() {
@@ -56,12 +56,12 @@ public class User implements Serializable {
         this.active = active;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public void setPassword(String password) {
