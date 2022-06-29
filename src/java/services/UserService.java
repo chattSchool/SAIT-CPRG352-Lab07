@@ -2,6 +2,7 @@ package services;
 
 import dataaccess.UserDB;
 import java.util.ArrayList;
+import models.Role;
 import models.User;
 
 /**
@@ -14,16 +15,18 @@ public class UserService {
     public ArrayList<User> getAll() throws Exception {
         UserDB userDB = new UserDB();
         ArrayList<User> users = userDB.getAll();
+        
         return users;
     }
     
     public User getUser(String userEmail) throws Exception {
         UserDB userDB = new UserDB();
         User user = userDB.getUser(userEmail);
+        
         return user;
     }
     
-    public void addUser(String email, boolean active, String firstName, String lastName, String password, int role) throws Exception {
+    public void addUser(String email, boolean active, String firstName, String lastName, String password, Role role) throws Exception {
         UserDB userDB = new UserDB();
         User user = new User(email, active, firstName, lastName, password, role);
         userDB.addUser(user);

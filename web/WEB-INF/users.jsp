@@ -35,13 +35,13 @@
         </form>
         
         <c:forEach var="user" items="${users}">
-            <p>${user.email}, ${user.firstName}, ${user.lastName}, ${user.active}, ${user.role}</p>
+            <p>${user.email}, ${user.firstName}, ${user.lastName}, ${user.active}, ${user.role.id} - ${user.role.name}</p>
         </c:forEach>
             
         <c:if test="${message != null}">
             <p>${message}</p>
         </c:if>
             
-        <p>${user.firstName} ${user.lastName} was found in search and their email is ${user.email}</p>
+        <p>${user.firstName} ${user.lastName} was found in search and their email is ${user.email} Role is ${user.role.id} - ${user.role.name}</p>
     </body>
 </html>

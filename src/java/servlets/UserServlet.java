@@ -32,7 +32,7 @@ public class UserServlet extends HttpServlet {
            
            User user = us.getUser("cprg352+anne@gmail.com");
            request.setAttribute("user", user);
-           
+         
            ArrayList<Role> roles = rs.getAll();
            request.setAttribute("roles", roles);
         } catch (Exception e) {
@@ -62,7 +62,7 @@ public class UserServlet extends HttpServlet {
                         String firstName = request.getParameter("new_fname");
                         String lastName = request.getParameter("new_lname");
                         String password = request.getParameter("new_password");
-                        int role = Integer.parseInt(request.getParameter("new_roles"));
+                        Role role = rs.getRole(Integer.parseInt(request.getParameter("new_roles")));
                         us.addUser(email, active, firstName, lastName, password, role);
                     case "update":
                     case "delete":

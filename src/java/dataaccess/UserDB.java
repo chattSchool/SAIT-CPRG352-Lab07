@@ -2,7 +2,9 @@ package dataaccess;
 
 import java.sql.*;
 import java.util.ArrayList;
+import models.Role;
 import models.User;
+import services.RoleService;
 
 /**
  *
@@ -15,6 +17,7 @@ public class UserDB {
         ArrayList<User> users = new ArrayList<>();
         ConnectionPool cp = ConnectionPool.getInstance();
         Connection con = cp.getConnection();
+        RoleService roleServ = new RoleService();
         PreparedStatement ps = null;
         ResultSet rs = null;
         
@@ -30,7 +33,7 @@ public class UserDB {
                 String firstName = rs.getString(3);
                 String lastName = rs.getString(4);
                 String password = rs.getString(5);
-                int role = rs.getInt(6);
+                Role role = roleServ.getRole(rs.getInt(6));
                 
                 User user = new User(email, active, firstName, lastName, password, role);
                 
@@ -50,6 +53,7 @@ public class UserDB {
         User user = null;
         ConnectionPool cp = ConnectionPool.getInstance();
         Connection con = cp.getConnection();
+        RoleService roleServ = new RoleService();
         PreparedStatement ps = null;
         ResultSet rs = null;
         
@@ -67,7 +71,7 @@ public class UserDB {
             String firstName = rs.getString(3);
             String lastName = rs.getString(4);
             String password = rs.getString(5);
-            int role = rs.getInt(6);
+            Role role = roleServ.getRole(rs.getInt(6));
             
             user = new User(email, active, firstName, lastName, password, role);
         } finally {
@@ -93,7 +97,7 @@ public class UserDB {
             ps.setString(3, user.getFirstName());
             ps.setString(4, user.getLastName());
             ps.setString(5, user.getPassword());
-            ps.setInt(6, user.getRole());
+            ps.setInt(6, user.getRole().getId());
             ps.executeUpdate();
             
         } finally {

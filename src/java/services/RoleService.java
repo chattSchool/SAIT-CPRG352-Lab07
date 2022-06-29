@@ -17,4 +17,11 @@ public class RoleService {
         
         return roles;
     }
+    
+    public Role getRole(int id) throws Exception {
+        RoleDB roleDB = new RoleDB();
+        Role role = roleDB.getRole(id);
+        
+        return role;
+    }
 }
