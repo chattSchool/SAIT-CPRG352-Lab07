@@ -34,14 +34,44 @@
             <br />
         </form>
         
-        <c:forEach var="user" items="${users}">
-            <p>${user.email}, ${user.firstName}, ${user.lastName}, ${user.active}, ${user.role.id} - ${user.role.name}</p>
-        </c:forEach>
+        
+        <table>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>User Role</th>
+                <th>Update User</th>
+                <th>Delete User</th>
+            </tr>
+            <c:forEach var="user" items="${users}">
+                <tr>
+                    <td>${user.firstName}</td>
+                    <td>${user.lastName}</td>
+                    <td>${user.email}</td>
+                    <td>${user.role.name}</td>
+                    <td>
+                        <c:url value="/users" var="updateURL">
+                            <c:param name="action" value="update" />
+                            <c:param name="userEmail" value="${user.email}" />
+                        </c:url>
+
+                        <a href="${updateURL}">Update</a>                        
+                    </td>
+                    <td>
+                        <c:url value="/users" var="deleteURL">
+                            <c:param name="action" value="delete" />
+                            <c:param name="userEmail" value="${user.email}" />
+                        </c:url>
+                        
+                        <a href="${deleteURL}">Delete</a>
+                    </td>
+                </tr>
+            </c:forEach>
+        </table>
             
         <c:if test="${message != null}">
             <p>${message}</p>
         </c:if>
-            
-        <p>${user.firstName} ${user.lastName} was found in search and their email is ${user.email} Role is ${user.role.id} - ${user.role.name}</p>
     </body>
 </html>

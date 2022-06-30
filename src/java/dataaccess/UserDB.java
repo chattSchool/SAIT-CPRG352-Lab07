@@ -99,7 +99,24 @@ public class UserDB {
             ps.setString(5, user.getPassword());
             ps.setInt(6, user.getRole().getId());
             ps.executeUpdate();
-            
+        } finally {
+            DBUtil.closePreparedStatement(ps);
+            cp.freeConnection(con);
+        }
+    }
+    
+    public void deleteUser(User user) throws Exception {
+        ConnectionPool cp = ConnectionPool.getInstance();
+        Connection con = cp.getConnection();
+        PreparedStatement ps = null;
+        
+        String sql = "DELETE FROM User WHERE email=?";
+        
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, user.getEmail());
+//            System.out.println(user.getEmail());
+            ps.executeUpdate();
         } finally {
             DBUtil.closePreparedStatement(ps);
             cp.freeConnection(con);

@@ -31,4 +31,11 @@ public class UserService {
         User user = new User(email, active, firstName, lastName, password, role);
         userDB.addUser(user);
     }
+    
+    public void deleteUser(String userEmail) throws Exception {
+        UserDB userDB = new UserDB();
+        User user = new User();
+        user.setEmail(userEmail);
+        userDB.deleteUser(user);
+    }
 }

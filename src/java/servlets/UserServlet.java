@@ -24,23 +24,37 @@ public class UserServlet extends HttpServlet {
         HttpSession session = request.getSession();
         UserService us = new UserService();
         RoleService rs = new RoleService();
+        String action = request.getParameter("action");
         
-        //To be deleted, used to test DB methods
         try {
+           //Gets all users
            ArrayList<User> users = us.getAll();
            request.setAttribute("users", users);
-           
-           User user = us.getUser("cprg352+anne@gmail.com");
-           request.setAttribute("user", user);
          
+           //Gets all role names
            ArrayList<Role> roles = rs.getAll();
            request.setAttribute("roles", roles);
+           
+           if(action != null) {
+            
+                if(action.equals("delete")) {
+                    String userEmail = request.getParameter("userEmail");
+                    System.out.println(userEmail);
+                    us.deleteUser(userEmail);
+                    users = us.getAll();
+                    request.setAttribute("users", users);
+                    
+                    response.sendRedirect("users");
+                    return;
+                }
+            }
         } catch (Exception e) {
             System.out.println(e);
             session.setAttribute("message", e);
         }
         
         getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
+        session.setAttribute("message", null);
         return;
     }
 
@@ -65,7 +79,7 @@ public class UserServlet extends HttpServlet {
                         Role role = rs.getRole(Integer.parseInt(request.getParameter("new_roles")));
                         us.addUser(email, active, firstName, lastName, password, role);
                     case "update":
-                    case "delete":
+
                 }
                 session.setAttribute("message", action);
             }
