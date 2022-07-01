@@ -36,7 +36,6 @@ public class UserServlet extends HttpServlet {
            request.setAttribute("roles", roles);
            
            if(action != null) {
-            
                 if(action.equals("delete")) {
                     String userEmail = request.getParameter("userEmail");
                     us.deleteUser(userEmail);
@@ -44,6 +43,7 @@ public class UserServlet extends HttpServlet {
                     request.setAttribute("users", users);
                     
                     response.sendRedirect("users");
+                    session.setAttribute("message", null);
                     return;
                 } else if (action.equals("update")) { //Clicking the update link fills the update form, actual changes will be done in doPost
                     String userEmail = request.getParameter("userEmail");
@@ -52,7 +52,7 @@ public class UserServlet extends HttpServlet {
                 }
             }
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Something went wrong, please try again. Error: " + e);
             session.setAttribute("message", e);
         }
         
@@ -69,6 +69,7 @@ public class UserServlet extends HttpServlet {
         UserService us = new UserService();
         RoleService rs = new RoleService();
         String action = request.getParameter("action");
+        request.setAttribute("action", action);
         
         try {
             if(action != null) {
@@ -83,7 +84,10 @@ public class UserServlet extends HttpServlet {
                         String lastName = request.getParameter("new_lname");
                         String password = request.getParameter("new_password");
                         Role role = rs.getRole(Integer.parseInt(request.getParameter("new_roles")));
+                        System.out.println("Here");
                         us.addUser(email, active, firstName, lastName, password, role);
+                        System.out.println("No Here");
+                        break;
                     case "update":
                         active = false;
                         if(request.getParameter("update_active") != null) {
@@ -95,15 +99,14 @@ public class UserServlet extends HttpServlet {
                         password = request.getParameter("update_password");
                         role = rs.getRole(Integer.parseInt(request.getParameter("update_roles")));
                         us.updateUser(email, active, firstName, lastName, password, role);
+                        break;
                     case "cancel":
                         response.sendRedirect("users");
                         return;
                 }
-                session.setAttribute("message", action);
             }
         } catch (Exception e) {
-            System.out.println(e);
-            session.setAttribute("message", e);
+            session.setAttribute("message", "Something went wrong, please try again. Error: " + e);
         }
         
         response.sendRedirect("users");
