@@ -21,7 +21,7 @@ public class UserDB {
         PreparedStatement ps = null;
         ResultSet rs = null;
         
-        String sql = "SELECT * FROM User";
+        String sql = "SELECT * FROM user Order By last_name";
         
         try {
             ps = con.prepareStatement(sql);
@@ -57,7 +57,7 @@ public class UserDB {
         PreparedStatement ps = null;
         ResultSet rs = null;
         
-        String sql = "SELECT * FROM User WHERE email=?";
+        String sql = "SELECT * FROM user WHERE email=?";
         
         try {
             ps = con.prepareStatement(sql);
@@ -88,7 +88,7 @@ public class UserDB {
         Connection con = cp.getConnection();
         PreparedStatement ps = null;
         
-        String sql = "INSERT INTO User (email, active, first_name, last_name, password, role) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO user (email, active, first_name, last_name, password, role) VALUES (?, ?, ?, ?, ?, ?)";
         
         try {
             ps = con.prepareStatement(sql);
@@ -105,12 +105,34 @@ public class UserDB {
         }
     }
     
+    public void updateUser(User user) throws Exception {
+        ConnectionPool cp = ConnectionPool.getInstance();
+        Connection con = cp.getConnection();
+        PreparedStatement ps = null;
+        
+        String sql = "UPDATE user SET active=?, first_name=?, last_name=?, password=?, role=? WHERE email=?";
+        
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setBoolean(1, user.isActive());
+            ps.setString(2, user.getFirstName());
+            ps.setString(3, user.getLastName());
+            ps.setString(4, user.getPassword());
+            ps.setInt(5, user.getRole().getId());
+            ps.setString(6, user.getEmail());
+            ps.executeUpdate();
+        } finally {
+            DBUtil.closePreparedStatement(ps);
+            cp.freeConnection(con);
+        }
+    }
+    
     public void deleteUser(User user) throws Exception {
         ConnectionPool cp = ConnectionPool.getInstance();
         Connection con = cp.getConnection();
         PreparedStatement ps = null;
         
-        String sql = "DELETE FROM User WHERE email=?";
+        String sql = "DELETE FROM user WHERE email=?";
         
         try {
             ps = con.prepareStatement(sql);

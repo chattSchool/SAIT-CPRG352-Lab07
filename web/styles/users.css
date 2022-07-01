@@ -1,0 +1,22 @@
+.userTable {
+    border-collapse: collapse;
+}
+
+.userTable th {
+    color: #F3F3F3;
+    background-color: #3A3B3C;
+    height: 2.5em;
+    padding: 0.5em;
+}
+
+.userTable tr {
+    height: 2em;
+}
+
+.userTable tr:nth-child(even) {
+    background-color: #CCCCCC;
+}
+
+.userTable td {
+    padding: 0.5em;
+}
